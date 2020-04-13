@@ -60,23 +60,18 @@ class ValetudoXiaomiVacuum {
             .on('set', this.doFind.bind(this));
         this.services.push(this.findService);
 
-        this.goHomeService = new Service.Switch('Go Home, ' + this.name, 'home');
+        this.goHomeService = new Service.Switch('Retour Dock ' + this.name, 'home');
         this.goHomeService.getCharacteristic(Characteristic.On)
             .on('set', this.goHome.bind(this))
             .on('get', this.isGoingHome.bind(this));
         this.services.push(this.goHomeService);
 
-        this.cleanService = new Service.Switch('Clean, ' + this.name, 'clean');
+        this.cleanService = new Service.Switch('Nettoyage ' + this.name, 'clean');
         this.cleanService.getCharacteristic(Characteristic.On)
             .on('set', this.startCleaning.bind(this))
             .on('get', this.isCleaning.bind(this));
         this.services.push(this.cleanService);
-
-        this.spotCleanService = new Service.Switch('Spot Clean, ' + this.name, 'spotclean');
-        this.spotCleanService.getCharacteristic(Characteristic.On)
-            .on('set', this.startSpotCleaning.bind(this))
-            .on('get', this.isSpotCleaning.bind(this));
-        this.services.push(this.spotCleanService);
+        
 
         if (this.powerControl) {
             this.highSpeedService = new Service.Switch('High speed mode ' + this.name, 'highspeed');
