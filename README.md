@@ -1,10 +1,10 @@
-# homebridge-valetudo-xiaomi-vacuum
+# homebridge-valetudo-xiaomi-vacuum-with-rooms
 
-`homebridge-valetudo-xiaomi-vacuum` is a [Homebridge](https://github.com/nfarina/homebridge) plugin which you can use to control your Xiaomi Roborock vacuum that has [Valetudo](https://github.com/Hypfer/Valetudo) installed.
+Fork of th eonfoot's plugin `homebridge-valetudo-xiaomi-vacuum`, which is a [Homebridge](https://github.com/nfarina/homebridge) plugin which you can use to control your Xiaomi Roborock vacuum that has [Valetudo](https://github.com/Hypfer/Valetudo) installed.
 
 ## Installation
 
-`npm -g install homebridge-valetudo-xiaomi-vacuum`
+`npm -g install homebridge-valetudo-xiaomi-vacuum-with-rooms`
 
 ## Configuration
 
@@ -39,10 +39,11 @@ Example:
 }
 ```
 
+## ajouter la config pour le nettoyage des pièces
+Plus tard
+
 ## Compatibility
 
-Tested on Roborock S50 with firmware v001748 and Valetudo 0.3.1.
+Tested on Roborock S50 with firmware v002008 and Valetudo RE 0.9.3
 
-## Vacuum map in Home app
 
-I played a little with an idea of setting up a HomeKit camera that grabs the generated Vacuum image and streams it as a video. [The idea issue](https://github.com/onfoot/homebridge-valetudo-xiaomi-vacuum/issues/2#issuecomment-572278178) contains more details.
