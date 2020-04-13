@@ -1,6 +1,6 @@
 # homebridge-valetudo-xiaomi-vacuum-with-rooms
 
-Fork of th eonfoot's plugin `homebridge-valetudo-xiaomi-vacuum`, which is a [Homebridge](https://github.com/nfarina/homebridge) plugin which you can use to control your Xiaomi Roborock vacuum that has [Valetudo](https://github.com/Hypfer/Valetudo) installed.
+Fork based on onfoot's plugin `homebridge-valetudo-xiaomi-vacuum`, which is a [Homebridge](https://github.com/nfarina/homebridge) plugin which you can use to control your Xiaomi Roborock vacuum that has [Valetudo](https://github.com/Hypfer/Valetudo) installed.
 
 ## Installation
 
