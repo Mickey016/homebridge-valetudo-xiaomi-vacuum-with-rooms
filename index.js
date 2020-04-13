@@ -11,7 +11,7 @@ module.exports = function(homebridge) {
     Characteristic = homebridge.hap.Characteristic;
     UUIDGen = homebridge.hap.uuid;
 
-    homebridge.registerAccessory('homebridge-valetudo-xiaomi-vacuum', 'ValetudoXiaomiVacuum', ValetudoXiaomiVacuum);
+    homebridge.registerAccessory('homebridge-valetudo-xiaomi-vacuum-with-rooms', 'ValetudoXiaomiVacuumWithRooms', ValetudoXiaomiVacuumWithRooms);
 };
 
 class ValetudoXiaomiVacuum {
