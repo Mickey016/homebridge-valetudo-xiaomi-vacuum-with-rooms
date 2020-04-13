@@ -14,7 +14,7 @@ module.exports = function(homebridge) {
     homebridge.registerAccessory('homebridge-valetudo-xiaomi-vacuum-with-rooms', 'ValetudoXiaomiVacuumWithRooms', ValetudoXiaomiVacuumWithRooms);
 };
 
-class ValetudoXiaomiVacuum {
+class ValetudoXiaomiVacuumWithRooms {
 
     constructor(log, config) {
         this.services = [];
@@ -128,7 +128,7 @@ class ValetudoXiaomiVacuum {
             if (error) {
                 callback(error);
             } else {
-                callback(null, this.current_status['fan_power'] === ValetudoXiaomiVacuum.SPEEDS.mop);
+                callback(null, this.current_status['fan_power'] === ValetudoXiaomiVacuumWithRooms.SPEEDS.mop);
             }
         });
     }
@@ -172,7 +172,7 @@ class ValetudoXiaomiVacuum {
                 callback(null);
                 return;
             } else {
-                this.setFanSpeed(ValetudoXiaomiVacuum.SPEEDS.mop, callback);
+                this.setFanSpeed(ValetudoXiaomiVacuumWithRooms.SPEEDS.mop, callback);
                 return;
             }
         } else {
@@ -201,9 +201,9 @@ class ValetudoXiaomiVacuum {
             if (error) {
                 callback(error);
             } else {
-                if (this.current_status.state === ValetudoXiaomiVacuum.STATES.CHARGING) {
+                if (this.current_status.state === ValetudoXiaomiVacuumWithRooms.STATES.CHARGING) {
                     callback(null, Characteristic.ChargingState.CHARGING);
-                } else if (this.current_status.state === ValetudoXiaomiVacuum.STATES.CHARGER_DISCONNECTED || this.current_status.state === ValetudoXiaomiVacuum.STATES.CHARGING_PROBLEM) {
+                } else if (this.current_status.state === ValetudoXiaomiVacuumWithRooms.STATES.CHARGER_DISCONNECTED || this.current_status.state === ValetudoXiaomiVacuumWithRooms.STATES.CHARGING_PROBLEM) {
                     callback(null, Characteristic.ChargingState.NOT_CHARGEABLE);
                 } else {
                     callback(null, Characteristic.ChargingState.NOT_CHARGING);
@@ -297,7 +297,7 @@ class ValetudoXiaomiVacuum {
                 return callback(new Error(`Error retrieving going home status: ${error}`));
             }
 
-            callback(null, this.current_status.state === ValetudoXiaomiVacuum.STATES.RETURNING_HOME);
+            callback(null, this.current_status.state === ValetudoXiaomiVacuumWithRooms.STATES.RETURNING_HOME);
         });
     }
 
@@ -405,7 +405,7 @@ class ValetudoXiaomiVacuum {
                     return;
                 }
 
-                if (this.current_status.state === ValetudoXiaomiVacuum.STATES.CLEANING) {
+                if (this.current_status.state === ValetudoXiaomiVacuumWithRooms.STATES.CLEANING) {
                     this.stopCleaning(() => {
                         callback();
                     });
@@ -427,13 +427,13 @@ class ValetudoXiaomiVacuum {
                 return;
             }
 
-            if (this.current_status.state == ValetudoXiaomiVacuum.STATES.IDLE ||
-                this.current_status.state == ValetudoXiaomiVacuum.STATES.RETURNING_HOME ||
-                this.current_status.state == ValetudoXiaomiVacuum.STATES.CHARGING ||
-                this.current_status.state == ValetudoXiaomiVacuum.STATES.PAUSED ||
-                this.current_status.state == ValetudoXiaomiVacuum.STATES.SPOT_CLEANING ||
-                this.current_status.state == ValetudoXiaomiVacuum.STATES.DOCKING ||
-                this.current_status.state == ValetudoXiaomiVacuum.STATES.GOING_TO_TARGET) {
+            if (this.current_status.state == ValetudoXiaomiVacuumWithRooms.STATES.IDLE ||
+                this.current_status.state == ValetudoXiaomiVacuumWithRooms.STATES.RETURNING_HOME ||
+                this.current_status.state == ValetudoXiaomiVacuumWithRooms.STATES.CHARGING ||
+                this.current_status.state == ValetudoXiaomiVacuumWithRooms.STATES.PAUSED ||
+                this.current_status.state == ValetudoXiaomiVacuumWithRooms.STATES.SPOT_CLEANING ||
+                this.current_status.state == ValetudoXiaomiVacuumWithRooms.STATES.DOCKING ||
+                this.current_status.state == ValetudoXiaomiVacuumWithRooms.STATES.GOING_TO_TARGET) {
                     callback(new Error('Cannot stop cleaning in current state'));
             }
 
@@ -457,7 +457,7 @@ class ValetudoXiaomiVacuum {
                 return callback(error);
             }
 
-            callback(null, this.current_status.state === ValetudoXiaomiVacuum.STATES.CLEANING);
+            callback(null, this.current_status.state === ValetudoXiaomiVacuumWithRooms.STATES.CLEANING);
         });
     }
 
@@ -489,7 +489,7 @@ class ValetudoXiaomiVacuum {
                 return callback(error);
             }
 
-            callback(null, this.current_status.state === ValetudoXiaomiVacuum.STATES.SPOT_CLEANING);
+            callback(null, this.current_status.state === ValetudoXiaomiVacuumWithRooms.STATES.SPOT_CLEANING);
         });
     }
 
@@ -505,18 +505,18 @@ class ValetudoXiaomiVacuum {
             this.batteryService.updateCharacteristic(Characteristic.BatteryLevel, this.current_status.battery);
             this.batteryService.updateCharacteristic(Characteristic.StatusLowBattery, this.current_status.battery < 20
                 ? Characteristic.StatusLowBattery.BATTERY_LEVEL_LOW : Characteristic.StatusLowBattery.BATTERY_LEVEL_NORMAL);
-            this.batteryService.updateCharacteristic(Characteristic.ChargingState, this.current_status.state == ValetudoXiaomiVacuum.STATES.CHARGING
+            this.batteryService.updateCharacteristic(Characteristic.ChargingState, this.current_status.state == ValetudoXiaomiVacuumWithRooms.STATES.CHARGING
                 ? Characteristic.ChargingState.CHARGING : Characteristic.ChargingState.NOT_CHARGING);
 
-            this.cleanService.updateCharacteristic(Characteristic.On, this.current_status.state == ValetudoXiaomiVacuum.STATES.CLEANING); // cleaning
-            this.goHomeService.updateCharacteristic(Characteristic.On, this.current_status.state == ValetudoXiaomiVacuum.STATES.RETURNING_HOME); // driving home
-            this.spotCleanService.updateCharacteristic(Characteristic.On, this.current_status.state == ValetudoXiaomiVacuum.STATES.SPOT_CLEANING); // cleaning
+            this.cleanService.updateCharacteristic(Characteristic.On, this.current_status.state == ValetudoXiaomiVacuumWithRooms.STATES.CLEANING); // cleaning
+            this.goHomeService.updateCharacteristic(Characteristic.On, this.current_status.state == ValetudoXiaomiVacuumWithRooms.STATES.RETURNING_HOME); // driving home
+            this.spotCleanService.updateCharacteristic(Characteristic.On, this.current_status.state == ValetudoXiaomiVacuumWithRooms.STATES.SPOT_CLEANING); // cleaning
 
             if (this.powerControl) {
                 this.highSpeedMode = this.current_status['fan_power'] === this.powerControl.highSpeed;
                 this.highSpeedService.updateCharacteristic(Characteristic.On, this.highSpeedMode);
                 if (this.powerControl.mop) {
-                    this.mopMode = this.current_status['fan_power'] === ValetudoXiaomiVacuum.SPEEDS.mop;
+                    this.mopMode = this.current_status['fan_power'] === ValetudoXiaomiVacuumWithRooms.SPEEDS.mop;
                     this.mopService.updateCharacteristic(Characteristic.On, this.mopMode);
                 }
             }
@@ -526,8 +526,8 @@ class ValetudoXiaomiVacuum {
     updateInterval() {
         if (this.current_status !== null) {
             switch (this.current_status.state) {
-                case ValetudoXiaomiVacuum.STATES.CHARGING:
-                case ValetudoXiaomiVacuum.STATES.IDLE:
+                case ValetudoXiaomiVacuumWithRooms.STATES.CHARGING:
+                case ValetudoXiaomiVacuumWithRooms.STATES.IDLE:
                     return 120000; // slow update interval for idle states
                 default:
                     return 10000; // fast update interval for non-idle states
@@ -639,17 +639,17 @@ class ValetudoXiaomiVacuum {
 
     getSpeedValue(preset) {
         switch (preset) {
-            case 'quiet': return ValetudoXiaomiVacuum.SPEEDS.quiet;
-            case 'balanced': return ValetudoXiaomiVacuum.SPEEDS.balanced;
-            case 'turbo': return ValetudoXiaomiVacuum.SPEEDS.turbo;
-            case 'max': return ValetudoXiaomiVacuum.SPEEDS.max;
-            case 'mop': return ValetudoXiaomiVacuum.SPEEDS.mop;
+            case 'quiet': return ValetudoXiaomiVacuumWithRooms.SPEEDS.quiet;
+            case 'balanced': return ValetudoXiaomiVacuumWithRooms.SPEEDS.balanced;
+            case 'turbo': return ValetudoXiaomiVacuumWithRooms.SPEEDS.turbo;
+            case 'max': return ValetudoXiaomiVacuumWithRooms.SPEEDS.max;
+            case 'mop': return ValetudoXiaomiVacuumWithRooms.SPEEDS.mop;
             default: throw Error(`Invalid power preset given: ${preset}`);
         }
     }
 }
 
-ValetudoXiaomiVacuum.STATES = {
+ValetudoXiaomiVacuumWithRooms.STATES = {
     STARTING: 'STARTING',
     CHARGER_DISCONNECTED: 'CHARGER_DISCONNECTED',
     IDLE: 'IDLE',
@@ -669,7 +669,7 @@ ValetudoXiaomiVacuum.STATES = {
     ZONE_CLEANING: 'ZONE_CLEANING'
 };
 
-ValetudoXiaomiVacuum.SPEEDS = {
+ValetudoXiaomiVacuumWithRooms.SPEEDS = {
     quiet: 101,
     balanced: 102,
     turbo: 103,
