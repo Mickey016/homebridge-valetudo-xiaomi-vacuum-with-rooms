@@ -23,7 +23,7 @@ class ValetudoXiaomiVacuumWithRooms {
 
         let powerControl = config['power-control'];
         if (powerControl) {
-            let defaultSpeedValue = this.getSpeedValue(powerControl['default-speed'] || 'quiet');
+            let defaultSpeedValue = this.getSpeedValue(powerControl['default-speed'] || 'balanced');
             let highSpeedValue = this.getSpeedValue(powerControl['high-speed'] || 'turbo');
 
             this.powerControl = {
